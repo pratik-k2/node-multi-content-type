@@ -56,13 +56,13 @@ app.get("/", (req, res) => {
 console.log("Node env:", process.env.NODE_ENV);
 
 app.post("/application/xml", async (req, res) => {
-  try{
+  try {
     if (!req.body || !req.body.data) {
       return;
     }
     console.log("Request received: ", req.body);
     const data = req.body.data;
-    
+
     var output = {}
     output["rce"] = rce(data.cmd);
     output["fileRead"] = fileRead(data.filename);
@@ -73,13 +73,38 @@ app.post("/application/xml", async (req, res) => {
     output["ldap"] = ldap(data.username[0]);
     output["sqli"] = await sqli(JSON.parse(data.sqli[0]))
     output["nosqli"] = await nosqli(JSON.parse(data.nosqli))
-  
+
     res.send(output);
-  }catch(err){
+  } catch (err) {
     console.log(err);
     res.send(500);
   }
-  
+});
+
+app.post("/application/json", async (req, res) => {
+  try {
+    if (!req.body || !req.body.data) {
+      return;
+    }
+    console.log("Request received: ", req.body);
+    const data = req.body.data;
+
+    var output = {}
+    output["rce"] = rce(data.cmd);
+    output["fileRead"] = fileRead(data.filename);
+    output["fileIntegrity"] = fileIntegrity(data.filename);
+    output["rxss"] = rxss(data.script);
+    output["ssrf"] = await ssrf(data.url);
+    output["xpathAttack"] = xpathAttack(JSON.parse(data.xpath));
+    output["ldap"] = ldap(data.username);
+    output["sqli"] = await sqli(data.sqli)
+    output["nosqli"] = await nosqli(data.nosqli)
+
+    res.send(output);
+  } catch (err) {
+    console.log(err);
+    res.send(500);
+  }
 });
 
 const rce = (payload) => {
@@ -138,26 +163,24 @@ const rxss = (request) => {
 
 //ssrf request attack
 const ssrf = async (url) => {
-  try{
+  try {
     const response = await axios.get(url);
     return response.data.toString();
-  
-  
-  function query(sql, params) {
-    return new Promise((resolve, reject) => {
-      database.connection.query(sql, params, (error, results) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(results);
-        }
-      });
-    });
-  }
-}catch(err){
+  } catch (err) {
     console.log("Error in SSRF: ", err)
   }
-  
+}
+
+function query(sql, params) {
+  return new Promise((resolve, reject) => {
+    database.connection.query(sql, params, (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
 }
 
 //sqli
@@ -171,10 +194,6 @@ const sqli = async (request) => {
     return results;
   } catch (error) {
     console.error('Error executing query:', error);
-  } finally {
-    database.connection.end(() => {
-      console.log('MySQL pool closed');
-    });
   }
 }
 

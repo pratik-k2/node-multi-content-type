@@ -80,4 +80,20 @@ curl --location 'localhost:8080/application/xml' \
     <sqli>{"email": "admin'\'' OR '\''1'\''='\''1", "password": "--"}</sqli>
 	<xpath>{"username": "'\'' or '\''1'\''='\''1", "password": "'\'' or '\''1'\''='\''1"}</xpath>
 </data>'
+
+# application/json attack
+curl --location 'localhost:8080/application/json' \
+--header 'Content-Type: application/json' \
+--data '{
+    "data":{
+        "filename": "sample.js",
+        "script": "test",
+		"username": "test",
+		"url": "http://google.com",
+		"cmd":"google.com",
+		"nosqli": {"type":"fairy"},
+    	"sqli": {"email": "admin", "password": "admin"},
+		"xpath": "{\"username\": \"admin\", \"password\": \"xpath\"}"
+    }
+}'
 fi
