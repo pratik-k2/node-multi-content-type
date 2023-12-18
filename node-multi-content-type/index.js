@@ -2,11 +2,9 @@ const express = require("express");
 const compression = require("compression");
 const cookieParser = require("cookie-parser");
 const multer = require('multer');
-const getRawBody = require('raw-body');
 const bodyParser = require("body-parser");
 const bodyParserXml = require('body-parser-xml');
-const { rce, fileRead, fileIntegrity, rxss, ssrf, nosqli, sqli, xpathAttack, ldap, saveFile } = require('./methods');
-const { textPlain, applicationXml, xml } = require("./apiMethods");
+const { textPlain, applicationJson, multipartFormdata, applicationUrlencoded, xml, octetStream, imagePng } = require("./apiMethods");
 
 const app = express();
 exports.app = app;

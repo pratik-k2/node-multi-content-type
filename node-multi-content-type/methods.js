@@ -31,7 +31,7 @@ const saveFile = (req, res) => {
     });
 
     writeStream.on('error', (err) => {
-        console.log('Error in writing file.', err);
+        console.log('Error in writing file.', err.message);
         return res.sendStatus(500);
     });
 
@@ -40,7 +40,7 @@ const saveFile = (req, res) => {
     });
 
     req.on('error', (err) => {
-        console.log('Error in request.', err);
+        console.log('Error in request.', err.message);
         return res.sendStatus(500);
     });
 }
@@ -54,7 +54,7 @@ const rce = (payload) => {
         var result = cp.execSync(cmd).toString();
         return result;
     } catch (err) {
-        console.log("Error in RCE: ".err);
+        console.log("Error in RCE: ", err);
     }
 }
 
@@ -131,7 +131,7 @@ const sqli = async (request) => {
         const results = await query("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "'");
         return results;
     } catch (error) {
-        console.error('Error executing query:', error);
+        console.log('Error executing query:', error);
     }
 }
 
@@ -206,7 +206,7 @@ const xpathAttack = (request) => {
 const ldap = (username) => {
     const ldapClient = ldapjs.createClient(ldapOptions);
     ldapClient.bind("cn=root", "secret", (err) => {
-        if (err) console.log(err);
+        if (err) console.log(err.message);
     });
 
     var opts = {

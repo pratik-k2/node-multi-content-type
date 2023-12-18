@@ -1,4 +1,5 @@
-const { rce, fileRead, fileIntegrity, rxss, ssrf, nosqli, sqli, xpathAttack, ldap } = require('./methods');
+const getRawBody = require('raw-body');
+const { rce, fileRead, fileIntegrity, rxss, ssrf, nosqli, sqli, xpathAttack, ldap, saveFile } = require('./methods');
 
 const textPlain = async (req, res) => {
   try {
@@ -75,7 +76,6 @@ const applicationJson = async (req, res) => {
     console.log(err);
     res.send(500);
   }
-
 }
 
 const applicationUrlencoded = async (req, res) => {
