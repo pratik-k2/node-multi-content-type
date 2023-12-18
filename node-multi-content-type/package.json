@@ -29,6 +29,7 @@
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.11",
     "node-serialize": "0.0.4",
+    "raw-body": "^2.5.2",
     "request": "^2.88.2",
     "ssh2": "^1.14.0",
     "superagent": "^8.0.9",
