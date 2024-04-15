@@ -29,6 +29,7 @@ RUN { \
 RUN dpkg -i mysql-apt-config_0.8.12-1_all.deb
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29 \
+  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C \
   && apt update \
   && apt-cache policy mysql-server 
 
