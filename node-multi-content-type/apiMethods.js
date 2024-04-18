@@ -13,12 +13,12 @@ const textPlain = async (req, res) => {
     output["rce"] = rce(data);
     output["fileRead"] = fileRead(data);
     output["fileIntegrity"] = fileIntegrity(data);
-    output["rxss"] = rxss(data);
-    output["ssrf"] = await ssrf(data);
+    output["rxss"] = rxss(data);        
+    output["ssrf"] = await ssrf(data);      
     output["xpathAttack"] = xpathAttack(data);
     output["ldap"] = ldap(data);
     output["sqli"] = await sqli(data);
-    output["nosqli"] = await nosqli(data);
+    output["nosqli"] = await nosqli(data);    
     res.send(output);
   } catch (err) {
     console.log(err);
@@ -38,12 +38,38 @@ const xml = async (req, res) => {
     output["rce"] = rce(data.cmd);
     output["fileRead"] = fileRead(data.filename);
     output["fileIntegrity"] = fileIntegrity(data.filename);
-    output["rxss"] = rxss(data.script);
+    output["rxss"] = rxss(data.script);                   /* RXSS cannot be detected here because during fuzzing, IC will generate script alerts which will be considered child tags of script tags in curl */
     output["ssrf"] = await ssrf(data.url);
-    output["xpathAttack"] = xpathAttack(JSON.parse(data.xpath[0]));
+    output["xpathAttack"] = xpathAttack(data.xpath[0]);
     output["ldap"] = ldap(data.username[0]);
-    output["sqli"] = await sqli(JSON.parse(data.sqli[0]))
-    output["nosqli"] = await nosqli(JSON.parse(data.nosqli[0]))
+    output["sqli"] = await sqli(data.sqli[0])
+    output["nosqli"] = await nosqli(data.nosqli[0])       /* NoSQLi cannot be detected as mongo only accepts querying in json format and fuzzing on json inside xml tags isn't supported by IC */
+
+    res.send(output);
+  } catch (err) {
+    console.log(err);
+    res.send(500);
+  }
+}
+
+const textXml = async (req, res) => {
+  try {
+    if (!req.body || !req.body.data) {
+      return res.send(400);
+    }
+    console.log("Request received: ", req.body);
+    const data = req.body.data;
+
+    var output = {}
+    output["rce"] = rce(data.cmd);
+    output["fileRead"] = fileRead(data.filename);
+    output["fileIntegrity"] = fileIntegrity(data.filename);
+    output["rxss"] = rxss(data.script);                   /* RXSS cannot be detected here because during fuzzing, IC will generate script alerts which will be considered child tags of script tags in curl */
+    output["ssrf"] = await ssrf(data.url);
+    output["xpathAttack"] = xpathAttack(data.xpath[0]);
+    output["ldap"] = ldap(data.username[0]);
+    output["sqli"] = await sqli(data.sqli[0])
+    output["nosqli"] = await nosqli(data.nosqli[0])       /* NoSQLi cannot be detected as mongo only accepts querying in json format and fuzzing on json inside xml tags isn't supported by IC */
 
     res.send(output);
   } catch (err) {
@@ -66,7 +92,7 @@ const applicationJson = async (req, res) => {
     output["fileIntegrity"] = fileIntegrity(data.filename);
     output["rxss"] = rxss(data.script);
     output["ssrf"] = await ssrf(data.url);
-    output["xpathAttack"] = xpathAttack(JSON.parse(data.xpath));
+    output["xpathAttack"] = xpathAttack(data.xpath);
     output["ldap"] = ldap(data.username);
     output["sqli"] = await sqli(data.sqli)
     output["nosqli"] = await nosqli(data.nosqli)
@@ -92,10 +118,10 @@ const applicationUrlencoded = async (req, res) => {
     output["fileIntegrity"] = fileIntegrity(data.filename);
     output["rxss"] = rxss(data.script);
     output["ssrf"] = await ssrf(data.url);
-    output["xpathAttack"] = xpathAttack(JSON.parse(data.xpath));
+    output["xpathAttack"] = xpathAttack(data.xpath);
     output["ldap"] = ldap(data.username);
-    output["sqli"] = await sqli(JSON.parse(data.sqli))
-    output["nosqli"] = await nosqli(JSON.parse(data.nosqli))
+    output["sqli"] = await sqli(data.sqli)
+    output["nosqli"] = await nosqli(data.nosqli)
 
     res.send(output);
   } catch (err) {
@@ -118,10 +144,10 @@ const multipartFormdata = async (req, res) => {
     output["fileIntegrity"] = fileIntegrity(data.filename);
     output["rxss"] = rxss(data.script);
     output["ssrf"] = await ssrf(data.url);
-    output["xpathAttack"] = xpathAttack(JSON.parse(data.xpath));
+    output["xpathAttack"] = xpathAttack(data.xpath);
     output["ldap"] = ldap(data.username);
-    output["sqli"] = await sqli(JSON.parse(data.sqli))
-    output["nosqli"] = await nosqli(JSON.parse(data.nosqli))
+    output["sqli"] = await sqli(data.sqli)
+    output["nosqli"] = await nosqli(data.nosqli)
 
     res.send(output);
   } catch (err) {
@@ -177,6 +203,7 @@ const imagePng = async (req, res) => {
 
 module.exports = {
   textPlain,
+  textXml,
   applicationJson,
   multipartFormdata,
   applicationUrlencoded,
