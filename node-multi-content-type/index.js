@@ -52,11 +52,11 @@ app.post("/application/xml", async (req, res) => {
 // text/xml
 //===========================
 app.get("/text/xml", async (req, res) => {
-  await xml(req, res)
+  await textXml(req, res)
 });
 
 app.post("/text/xml", async (req, res) => {
-  await xml(req, res)
+  await textXml(req, res)
 });
 
 //===========================
