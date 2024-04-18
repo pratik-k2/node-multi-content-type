@@ -123,12 +123,9 @@ function query(sql, params) {
 
 //sqli
 const sqli = async (request) => {
-
-    var email = request.email;
-    var password = request.password;
-
+    var email = request
     try {
-        const results = await query("SELECT * FROM users WHERE email = '" + email + "' AND password = '" + password + "'");
+        const results = await query("SELECT * FROM users WHERE email = '" + email + "'");
         return results;
     } catch (error) {
         console.log('Error executing query:', error);
@@ -171,9 +168,8 @@ const nosqli = async (request) => {
 }
 
 // Section for Xpath attack
-const xpathAttack = (request) => {
-    var username = request.username;
-    var password = request.password;
+const xpathAttack = (username) => {
+    var password = "xpath";
     var xmlfile = __dirname + "/data/users.xml";
     try {
         const data = fs.readFileSync(xmlfile, { encoding: 'utf-8' });
