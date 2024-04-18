@@ -21,7 +21,7 @@ echo -e "${GREEN}Firing curl request to execute attack ${NONE}"
 
 if [[ ( $1 == "all" ) ]]; then
 
-#$ Curl1 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli>{"type":"fairy"}</nosqli><sqli>{"email":"admin","password":"admin"}</sqli><xpath>{"username":"admin","password":"xpath"}</xpath></data> Pass None
+#$ Curl1 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli><type>fairy</type></nosqli><sqli>admin</sqli><xpath>admin</xpath></data> Pass None
 curl --location --request GET 'localhost:8000/application/xml' \
 --header 'Content-Type: application/xml' \
 --data '<?xml version="1.0" encoding="UTF-8" ?>
@@ -31,12 +31,12 @@ curl --location --request GET 'localhost:8000/application/xml' \
 	<username>test</username>
 	<url>http://localhost:8000</url>
 	<cmd>google.com</cmd>
-	<nosqli>{"type":"fairy"}</nosqli>
-    <sqli>{"email":"admin","password":"admin"}</sqli>
-	<xpath>{"username":"admin","password":"xpath"}</xpath>
+	<nosqli><type>fairy</type></nosqli>
+    <sqli>admin</sqli>
+	<xpath>admin</xpath>
 </data>'
 
-#$ Curl2 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli>{"type":"fairy"}</nosqli><sqli>{"email":"admin","password":"admin"}</sqli><xpath>{"username":"admin","password":"xpath"}</xpath></data> Pass None
+#$ Curl2 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli><type>fairy</type></nosqli><sqli>admin</sqli><xpath>admin</xpath></data> Pass None
 curl --location 'localhost:8000/application/xml' \
 --header 'Content-Type: application/xml' \
 --data '<?xml version="1.0" encoding="UTF-8" ?>
@@ -46,12 +46,12 @@ curl --location 'localhost:8000/application/xml' \
 	<username>test</username>
 	<url>http://localhost:8000</url>
 	<cmd>google.com</cmd>
-	<nosqli>{"type":"fairy"}</nosqli>
-    <sqli>{"email":"admin","password":"admin"}</sqli>
-	<xpath>{"username":"admin","password":"xpath"}</xpath>
+	<nosqli><type>fairy</type></nosqli>
+    <sqli>admin</sqli>
+	<xpath>admin</xpath>
 </data>'
 
-#$ Curl3 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli>{"type":"fairy"}</nosqli><sqli>{"email":"admin","password":"admin"}</sqli><xpath>{"username":"admin","password":"xpath"}</xpath></data> Pass None
+#$ Curl3 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli><type>fairy</type></nosqli><sqli>admin</sqli><xpath>admin</xpath></data> Pass None
 curl --location --request GET 'localhost:8000/application/xml' \
 --header 'Content-Type: text/xml' \
 --data '<?xml version="1.0" encoding="UTF-8" ?>
@@ -61,12 +61,12 @@ curl --location --request GET 'localhost:8000/application/xml' \
 	<username>test</username>
 	<url>http://localhost:8000</url>
 	<cmd>google.com</cmd>
-	<nosqli>{"type":"fairy"}</nosqli>
-    <sqli>{"email":"admin","password":"admin"}</sqli>
-	<xpath>{"username":"admin","password":"xpath"}</xpath>
+	<nosqli><type>fairy</type></nosqli>
+    <sqli>admin</sqli>
+	<xpath>admin</xpath>
 </data>'
 
-#$ Curl4 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli>{"type":"fairy"}</nosqli><sqli>{"email":"admin","password":"admin"}</sqli><xpath>{"username":"admin","password":"xpath"}</xpath></data>  Pass None
+#$ Curl4 <data><filename>sample.js</filename><script>test</script><username>test</username><url>http://localhost:8000</url><cmd>google.com</cmd><nosqli><type>fairy</type></nosqli><sqli>admin</sqli><xpath>admin</xpath></data>  Pass None
 curl --location 'localhost:8000/application/xml' \
 --header 'Content-Type: text/xml' \
 --data '<?xml version="1.0" encoding="UTF-8" ?>
@@ -76,12 +76,12 @@ curl --location 'localhost:8000/application/xml' \
 	<username>test</username>
 	<url>http://localhost:8000</url>
 	<cmd>google.com</cmd>
-	<nosqli>{"type":"fairy"}</nosqli>
-    <sqli>{"email":"admin","password":"admin"}</sqli>
-	<xpath>{"username":"admin","password":"xpath"}</xpath>
+	<nosqli><type>fairy</type></nosqli>
+    <sqli>admin</sqli>
+	<xpath>admin</xpath>
 </data>'
 
-#$ Curl5 {"data":{"filename":"sample.js","script":"test","username":"test","url":"http://google.com","cmd":"google.com","nosqli":{"type":"fairy"},"sqli":{"email":"admin","password":"admin"},"xpath":"{\"username\":\"admin\",\"password\":\"xpath\"}"}} Pass None
+#$ Curl5 {"data":{"filename":"sample.js","script":"test","username":"test","url":"http://google.com","cmd":"google.com","nosqli":{"type":"fairy"},"sqli":"admin","xpath":"admin"}} Pass None
 curl --location --request GET 'localhost:8000/application/json' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -92,12 +92,12 @@ curl --location --request GET 'localhost:8000/application/json' \
 		"url":"http://google.com",
 		"cmd":"google.com",
 		"nosqli":{"type":"fairy"},
-    	"sqli":{"email":"admin","password":"admin"},
-		"xpath":"{\"username\":\"admin\",\"password\":\"xpath\"}"
+    	"sqli":"admin",
+		"xpath":"admin"
     }
 }'
 
-#$ Curl6 {"data":{"filename":"sample.js","script":"test","username":"test","url":"http://google.com","cmd":"google.com","nosqli":{"type":"fairy"},"sqli":{"email":"admin","password":"admin"},"xpath":"{\"username\":\"admin\",\"password\":\"xpath\"}"}}  Pass None
+#$ Curl6 {"data":{"filename":"sample.js","script":"test","username":"test","url":"http://google.com","cmd":"google.com","nosqli":{"type":"fairy"},"sqli":"admin","xpath":"admin"}}  Pass None
 curl --location 'localhost:8000/application/json' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -108,37 +108,37 @@ curl --location 'localhost:8000/application/json' \
 		"url":"http://google.com",
 		"cmd":"google.com",
 		"nosqli":{"type":"fairy"},
-    	"sqli":{"email":"admin","password":"admin"},
-		"xpath":"{\"username\":\"admin\",\"password\":\"xpath\"}"
+    	"sqli":"admin",
+		"xpath":"admin"
     }
 }'
 
-#$ Curl7 filename=sample.js&script=test&username=test&url=http://google.com&cmd=google.com&nosqli={"type":"fairy"}&sqli={"email":"admin","password":"admin"}&xpath={"username":"admin","password":"xpath"} Pass None
+#$ Curl7 filename=sample.js&script=test&username=test&url=http%3A%2F%2Fgoogle.com&cmd=google.com&nosqli=%7B%22type%22%3A%22fairy%22%7D&sqli=admin&xpath=admin Pass None
 curl --location --request GET 'localhost:8000/application/urlencoded' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'filename=sample.js' \
 --data-urlencode 'script=test' \
 --data-urlencode 'username=test' \
---data-urlencode 'url=http://google.com' \
+--data-urlencode 'url=http%3A%2F%2Fgoogle.com' \
 --data-urlencode 'cmd=google.com' \
---data-urlencode 'nosqli={"type":"fairy"}' \
---data-urlencode 'sqli={"email":"admin","password":"admin"}' \
---data-urlencode 'xpath={"username":"admin","password":"xpath"}'
+--data-urlencode 'nosqli=%7B%22type%22%3A%22fairy%22%7D' \
+--data-urlencode 'sqli=admin' \
+--data-urlencode 'xpath=admin'
 
 
-#$ Curl8 filename=sample.js&script=test&username=test&url=http://google.com&cmd=google.com&nosqli={"type":"fairy"}&sqli={"email":"admin","password":"admin"}&xpath={"username":"admin","password":"xpath"} Pass None
+#$ Curl8 filename=sample.js&script=test&username=test&url=http%3A%2F%2Fgoogle.com&cmd=google.com&nosqli=%7B%22type%22%3A%22fairy%22%7D&sqli=admin&xpath=admin Pass None
 curl --location 'localhost:8000/application/urlencoded' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'filename=sample.js' \
 --data-urlencode 'script=test' \
 --data-urlencode 'username=test' \
---data-urlencode 'url=http://google.com' \
+--data-urlencode 'url=http%3A%2F%2Fgoogle.com' \
 --data-urlencode 'cmd=google.com' \
 --data-urlencode 'nosqli={"type":"fairy"}' \
---data-urlencode 'sqli={"email":"admin","password":"admin"}' \
---data-urlencode 'xpath={"username":"admin","password":"xpath"}'
+--data-urlencode 'sqli=admin' \
+--data-urlencode 'xpath=admin'
 
-#$ Curl9 --form'filename="sample.js"'\--form'script="test"'\--form'username="test"'\--form'url="http://google.com"'\--form'cmd="google.com"'\--form'nosqli="{\"type\":\"fairy\"}"'\--form'sqli="{\"email\":\"admin\",\"password\":\"admin\"}"'\--form'xpath="{\"username\":\"admin\",\"password\":\"xpath\"}"' Pass None
+#$ Curl9 --form'filename="sample.js"'\--form'script="test"'\--form'username="test"'\--form'url="http://google.com"'\--form'cmd="google.com"'\--form'nosqli="{\"type\":\"fairy\"}"'\--form'sqli="admin"'\--form'xpath="admin"' Pass None
 curl --location --request GET 'localhost:8000/multipart/formdata' \
 --header 'Content-Type: multipart/form-data' \
 --form 'filename="sample.js"' \
@@ -147,12 +147,10 @@ curl --location --request GET 'localhost:8000/multipart/formdata' \
 --form 'url="http://google.com"' \
 --form 'cmd="google.com"' \
 --form 'nosqli="{\"type\":\"fairy\"}"' \
---form 'sqli="{\"email\":\"admin\",\"password\":\"admin\"}"' \
---form 'xpath="{\"username\":\"admin\",\"password\":\"xpath\"}"'
+--form 'sqli="admin"' \
+--form 'xpath="admin"'
 
-
-
-#$ Curl10 --form'filename="sample.js"'\--form'script="test"'\--form'username="test"'\--form'url="http://google.com"'\--form'cmd="google.com"'\--form'nosqli="{\"type\":\"fairy\"}"'\--form'sqli="{\"email\":\"admin\",\"password\":\"admin\"}"'\--form'xpath="{\"username\":\"admin\",\"password\":\"xpath\"}"' Pass None
+#$ Curl10 --form'filename="sample.js"'\--form'script="test"'\--form'username="test"'\--form'url="http://google.com"'\--form'cmd="google.com"'\--form'nosqli="{\"type\":\"fairy\"}"'\--form'sqli="admin"'\--form'xpath="admin"' Pass None
 curl --location 'localhost:8000/multipart/formdata' \
 --header 'Content-Type: multipart/form-data' \
 --form 'filename="sample.js"' \
@@ -161,8 +159,8 @@ curl --location 'localhost:8000/multipart/formdata' \
 --form 'url="http://google.com"' \
 --form 'cmd="google.com"' \
 --form 'nosqli="{\"type\":\"fairy\"}"' \
---form 'sqli="{\"email\":\"admin\",\"password\":\"admin\"}"' \
---form 'xpath="{\"username\":\"admin\",\"password\":\"xpath\"}"'
+--form 'sqli="admin"' \
+--form 'xpath="admin"'
 
 #$ Curl11 @batman.png Pass None
 curl --location --request GET 'localhost:8000/application/octet-stream' \
