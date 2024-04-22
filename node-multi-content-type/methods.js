@@ -103,7 +103,6 @@ const rxss = (request) => {
 
 //ssrf request attack
 const ssrf = async (url) => {
-    console.log("this is: ", url)
     try {
         const response = await axios.get(url);
         return response.data.toString();

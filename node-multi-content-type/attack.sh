@@ -165,22 +165,22 @@ curl --location 'localhost:8000/multipart/formdata' \
 #$ Curl11 @batman.png Pass None
 curl --location --request GET 'localhost:8000/application/octet-stream' \
 --header 'Content-Type: application/octet-stream' \
---data '/@batman.png'
+--data '@/node-multi-content-type/batman.png'
 
 #$ Curl12 @batman.png Pass None
 curl --location 'localhost:8000/application/octet-stream' \
 --header 'Content-Type: application/octet-stream' \
---data '@batman.png'
+--data '@/node-multi-content-type/batman.png'
 
 #$ Curl13 @batman.png Pass None
 curl --location --request GET 'localhost:8000/image/png' \
 --header 'Content-Type: image/png' \
---data '@batman.png'
+--data '@/node-multi-content-type/batman.png'
 
 #$ Curl14 @batman.png Pass None
 curl --location 'localhost:8000/image/png' \
 --header 'Content-Type: image/png' \
---data '@batman.png'
+--data '@/node-multi-content-type/batman.png'
 
 #$ Curl15 test Pass None
 curl --location --request GET 'localhost:8000/text/plain' \
