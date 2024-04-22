@@ -6,19 +6,38 @@ const textPlain = async (req, res) => {
     if (!req.body) {
       return res.send(400);
     }
+
     console.log("Request received: ", req.body);
-    const data = req.body;
+    var data = req.body;
+    if (typeof data === 'object') {
+      data = JSON.stringify(data);
+    }
 
     var output = {};
     output["rce"] = rce(data);
     output["fileRead"] = fileRead(data);
     output["fileIntegrity"] = fileIntegrity(data);
-    output["rxss"] = rxss(data);        
-    output["ssrf"] = await ssrf(data);      
+    output["rxss"] = rxss(data);     
     output["xpathAttack"] = xpathAttack(data);
     output["ldap"] = ldap(data);
     output["sqli"] = await sqli(data);
     output["nosqli"] = await nosqli(data);    
+    res.send(output);
+  } catch (err) {
+    console.log(err);
+    res.send(500);
+  }
+};
+
+const textPlainSSRF = async (req, res) => {
+  try {
+    if (!req.body) {
+      return res.send(400);
+    }
+    console.log("Request received: ", req.body);
+    var data = req.body;
+    var output = {};
+    output["ssrf"] = await ssrf(data); 
     res.send(output);
   } catch (err) {
     console.log(err);
@@ -203,6 +222,7 @@ const imagePng = async (req, res) => {
 
 module.exports = {
   textPlain,
+  textPlainSSRF,
   textXml,
   applicationJson,
   multipartFormdata,

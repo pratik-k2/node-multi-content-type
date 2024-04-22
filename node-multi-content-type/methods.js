@@ -46,6 +46,7 @@ const saveFile = (req, res) => {
 }
 
 const rce = (payload) => {
+    console.log("rce paylaod: ", payload)
     try {
         var cmd = 'ping -c 2 ' + payload;
         if (!cmd) {
@@ -60,6 +61,7 @@ const rce = (payload) => {
 
 // file read attack
 const fileRead = (filename) => {
+    console.log("fileRead paylaod: ", filename)
     try {
         var path = "./uploads/" + filename;
         var buffer = fs.readFileSync(path);
@@ -101,14 +103,17 @@ const rxss = (request) => {
 
 //ssrf request attack
 const ssrf = async (url) => {
+    console.log("this is: ", url)
     try {
         const response = await axios.get(url);
         return response.data.toString();
     } catch (err) {
-        console.log("Error in SSRF: ", err)
+        console.log("Error in SSRF: ", err.message)
     }
 }
 
+
+//sqli
 function query(sql, params) {
     return new Promise((resolve, reject) => {
         database.connection.query(sql, params, (error, results) => {
@@ -121,11 +126,11 @@ function query(sql, params) {
     });
 }
 
-//sqli
 const sqli = async (request) => {
     var email = request
     try {
-        const results = await query("SELECT * FROM users WHERE email = '" + email + "'");
+        var sql = "SELECT * FROM users WHERE email = '" + email + "'";
+        const results = await query(sql);
         return results;
     } catch (error) {
         console.log('Error executing query:', error);

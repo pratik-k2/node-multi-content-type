@@ -165,7 +165,7 @@ curl --location 'localhost:8000/multipart/formdata' \
 #$ Curl11 @batman.png Pass None
 curl --location --request GET 'localhost:8000/application/octet-stream' \
 --header 'Content-Type: application/octet-stream' \
---data '@batman.png'
+--data '/@batman.png'
 
 #$ Curl12 @batman.png Pass None
 curl --location 'localhost:8000/application/octet-stream' \
@@ -190,7 +190,13 @@ curl --location --request GET 'localhost:8000/text/plain' \
 #$ Curl16 test Pass None
 curl --location 'localhost:8000/text/plain' \
 --header 'Content-Type: text/plain' \
---data 'Test'
+--data 'test'
+
+#$ Curl17 http://google.com/ Pass None
+curl --location --request GET 'localhost:8000/text/plain/ssrf' \
+--header 'Content-Type: text/plain' \
+--data 'http://google.com/'
+
 fi
 
 

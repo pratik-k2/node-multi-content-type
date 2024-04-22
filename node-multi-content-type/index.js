@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const multer = require('multer');
 const bodyParser = require("body-parser");
 const bodyParserXml = require('body-parser-xml');
-const { textPlain, applicationJson, multipartFormdata, applicationUrlencoded, xml, octetStream, imagePng } = require("./apiMethods");
+const { textPlain, textPlainSSRF, applicationJson, multipartFormdata, applicationUrlencoded, xml, octetStream, imagePng } = require("./apiMethods");
 
 const app = express();
 exports.app = app;
@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 // Use the XML body parser
 bodyParserXml(bodyParser);
 app.use(bodyParser.xml());
+app.use(bodyParser.text());
 app.use(
   bodyParser.urlencoded({
     extended: false,
@@ -35,6 +36,11 @@ app.get("/text/plain", async (req, res) => {
 
 app.post("/text/plain", async (req, res) => {
   await textPlain(req, res);
+});
+
+
+app.get("/text/plain/ssrf", async (req, res) => {
+  await textPlainSSRF(req, res);
 });
 
 //===========================
